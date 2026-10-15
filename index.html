@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KisanQueue | Farmer Procurement Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🌾</span>
+      <div>
+        <h2>KisanQueue</h2>
+        <small>Procurement Portal</small>
+      </div>
+    </div>
+
+    <p class="menu-label">MAIN MENU</p>
+    <button class="nav-btn active" data-page="dashboard">▦ Dashboard</button>
+    <button class="nav-btn" data-page="register">＋ Register Farmer</button>
+    <button class="nav-btn" data-page="queue">☷ Queue Management</button>
+    <button class="nav-btn" data-page="track">⌕ Track Procurement</button>
+
+    <div class="sidebar-footer">
+      <span class="online-dot"></span> Demo mode
+      <p>Smart Farmer Procurement</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PROCUREMENT CENTRE</p>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="user-chip">
+        <span class="avatar">A</span>
+        <div><strong>Administrator</strong><small>Centre Staff</small></div>
+      </div>
+    </header>
+
+    <section id="dashboard" class="page">
+      <div class="welcome">
+        <div>
+          <p class="eyebrow light">SMART AGRICULTURE · DIGITAL INDIA</p>
+          <h2>Welcome to KisanQueue</h2>
+          <p>Manage farmer slots, queue tokens and procurement status in one place.</p>
+        </div>
+        <span class="welcome-icon">🌱</span>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span class="stat-icon green">♙</span>
+          <p>Registered Farmers</p>
+          <h2 id="totalCount">0</h2>
+          <small>All registered records</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon orange">◷</span>
+          <p>Waiting in Queue</p>
+          <h2 id="waitingCount">0</h2>
+          <small>Awaiting processing</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon blue">✓</span>
+          <p>Accepted</p>
+          <h2 id="acceptedCount">0</h2>
+          <small>Procurement accepted</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon purple">₹</span>
+          <p>Payment Pending</p>
+          <h2 id="paymentCount">0</h2>
+          <small>Awaiting payment</small>
+        </article>
+      </div>
+
+      <div class="content-card">
+        <div class="section-heading">
+          <div>
+            <h3>Recent Farmer Records</h3>
+            <p>Latest registered farmers and their status</p>
+          </div>
+          <button class="primary-btn" data-go="register">+ Register Farmer</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Token / ID</th>
+                <th>Farmer</th>
+                <th>Crop</th>
+                <th>Slot</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="recentTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="page hidden">
+      <div class="content-card form-card">
+        <div class="section-heading">
+          <div>
+            <h3>Farmer Registration</h3>
+            <p>Enter farmer and crop details to book a procurement slot.</p>
+          </div>
+          <span class="form-icon">🌾</span>
+        </div>
+
+        <form id="farmerForm">
+          <div class="form-grid">
+            <label>Farmer ID
+              <input id="farmerId" required placeholder="e.g. F101">
+            </label>
+            <label>Farmer Name
+              <input id="farmerName" required placeholder="Enter full name">
+            </label>
+            <label>Village
+              <input id="village" required placeholder="Enter village">
+            </label>
+            <label>Crop Type
+              <select id="crop" required>
+                <option value="">Select crop</option>
+                <option>Wheat</option>
+                <option>Rice</option>
+                <option>Maize</option>
+                <option>Cotton</option>
+                <option>Soybean</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>Quantity (kg)
+              <input id="quantity" type="number" min="1" step="0.1" required placeholder="e.g. 500">
+            </label>
+            <label>Procurement Slot
+              <select id="slot" required>
+                <option value="">Choose a slot</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="info-box">
+            <span>ⓘ</span>
+            A unique queue token will be generated automatically after registration.
+          </div>
+
+          <div class="form-actions">
+            <button type="reset" class="secondary-btn">Clear Form</button>
+            <button type="submit" class="primary-btn">Register & Generate Token →</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="queue" class="page hidden">
+      <div class="content-card">
+        <div class="section-heading">
+          <div>
+            <h3>Queue Management</h3>
+            <p>View farmers and update their procurement progress.</p>
+          </div>
+        </div>
+        <div class="toolbar">
+          <input id="queueSearch" placeholder="Search by farmer, ID or token...">
+          <select id="statusFilter">
+            <option value="">All statuses</option>
+            <option>Waiting</option>
+            <option>Weighing</option>
+            <option>Accepted</option>
+            <option>Payment Pending</option>
+            <option>Paid</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Token</th><th>Farmer</th><th>Crop / Quantity</th>
+                <th>Slot</th><th>Status</th><th>Update Status</th>
+              </tr>
+            </thead>
+            <tbody id="queueTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="track" class="page hidden">
+      <div class="content-card tracking-card">
+        <h3>Track Procurement</h3>
+        <p>Enter a farmer ID or queue token to check the current status.</p>
+        <form id="trackForm" class="track-form">
+          <input id="trackInput" required placeholder="Enter Farmer ID or token (e.g. T001)">
+          <button class="primary-btn" type="submit">Track Status</button>
+        </form>
+        <div id="trackResult"></div>
+      </div>
+    </section>
+
+    <footer>Smart Farmer Procurement Queue Manager · SIH-inspired prototype</footer>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
